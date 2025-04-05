@@ -1,10 +1,7 @@
 import subprocess
-import usb.core
 import logging
 from ppadb.client import Client as AdbClient
 import re
-import screen_connector
-from screen_connector import ScreenConnector
 import json
 logger = logging.getLogger(__name__)
 logging.basicConfig(filename="connect_to_phone.log", level=logging.INFO)
@@ -12,6 +9,10 @@ logging.basicConfig(filename="connect_to_phone.log", level=logging.INFO)
 adb_client = AdbClient()
 
 saved_devices_config = "saved_devices.json"
+
+
+def start_adb():
+    subprocess.run(["adb", "devices"])
 
 
 def save_device(serial, ip, model):
@@ -86,8 +87,3 @@ def get_device_dict_with_serial(device_dict_list: list[dict], serial: str):
     for dev in device_dict_list:
         if dev["serial"] == serial:
             return dev
-
-
-# if __name__ == "__main__":
-#     dasd = get_devices_list_of_dict()
-#     print(dasd)

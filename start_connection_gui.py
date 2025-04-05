@@ -53,6 +53,11 @@ def connect_btn_clicked():
     return
 
 
+# Start ADB
+start_connection.start_adb()
+
+
+# Init GUI
 main = tk.Tk()
 main.config(bg="#E4E2E2")
 main.title("Connect to Phone")
