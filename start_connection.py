@@ -62,12 +62,22 @@ def get_device_name(dev):
 
 
 def get_device_ip(dev):
-    try:
-        dev_ip_full = dev.shell("ip addr show wlan0")
-        dev_ip = re.search(r"inet (\d{1,3}(?:\.\d{1,3}){3})", dev_ip_full).group(1)
-        return dev_ip
-    except RuntimeError as err:
-        return ""
+    """
+    Find the local ip address of the phone
+    :param dev:
+    :return:
+    """
+    ip_regex = r"inet (\d{1,3}(?:\.\d{1,3}){3})"
+    for i in range(64):
+        try:
+            dev_ip_full = dev.shell(f"ip addr show wlan{i}")
+            dev_ip = re.search(ip_regex, dev_ip_full).group(1)
+            return dev_ip
+        except AttributeError as err:
+            continue
+        except RuntimeError as err:
+            return ""
+
 
 
 def get_devices_list_of_dict():
